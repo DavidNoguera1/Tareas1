@@ -6,9 +6,9 @@
 
 <%@include file= "templates/header.jsp" %>
 
-    <a class="navbar-brand" href="#">
-        
-        <header>
+<a class="navbar-brand" href="#">
+
+    <header>
 
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
@@ -47,44 +47,45 @@
         </nav>
 
     </header>
-        
-    </a>
-    </nav>
-        <div class="container p-4"> <!-- clase contenedora -->
-            <div class="row">
-            <div class="col-md-4">  <!-- clase division por 4 columnas -->
-                <div class="card card-body"> 
-                    <!-- tarjeta de trabajo -->
-                    <h3>Inserta tu tarea</h3>
-                  <form action="SvPerro" method="POST">         
-                      <!-- Input para el nombre-->
+
+</a>
+</nav>
+
+<p> Bienvenido </p> <a href="index.jsp">Cerrar cesion</a> 
+
+<div class="container p-4"> <!-- clase contenedora -->
+    <div class="row">
+        <div class="col-md-4">  <!-- clase division por 4 columnas -->
+            <div class="card card-body"> 
+                <!-- tarjeta de trabajo -->
+                <h3>Inserta tu tarea</h3>
+                <form action="SvPerro" method="POST">         
+                    <!-- Input para el nombre-->
                     <div class="input-group mb-3">
-                      <label class="input-group-text" for="nombre">Id:</label>
-                      <input type="text" name ="nombre" class="form-control">
+                        <label class="input-group-text" for="id">Id:</label>
+                        <input type="text" name ="id" class="form-control">
                     </div>                                            
-                      <!-- Input para la raza-->
-                      <div class="input-group mb-3">
-                      <label class="input-group-text" for="raza">Titulo:</label>
-                      <input type="text" name="raza" class="form-control">
+                    <!-- Input para la raza-->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="titulo">Titulo:</label>
+                        <input type="text" name="titulo" class="form-control">
                     </div>
-                      <!-- Input para la foto-->
-                      <div class="input-group mb-3">
-                      <label class="input-group-text" for="imagen">Descripcion:</label>
-                      <input type="text" name="imagen" class="form-control"  >
+                    <!-- Input para la descripcion-->
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="descripcion">Descripcion:</label>
+                        <Textarea type="text" name="descripcion" class="form-control"  ></textarea>
                     </div>
-                      <!-- Input para los puntos-->                   
-                          <div class="input-group mb-3">
-                      <label class="input-group-text" for="puntos">Fecha:</label>
-                        <select name="puntos" class="form-select" >                     
-                        </select>                  
-                       </div>
-                      <!-- Boton para agregar perros --> 
+                      <!-- Input para la fecha-->                   
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="fecha">Fecha:</label>
+                        <input type="date" name="fecha" class="form-control">
+                    </div>
+                        
+                      <!-- Boton para agregar tarea --> 
                       <input type="submit" value="Agregar Tarea" class ="form-control"</>
-                </form><br>
+                    </form><br>
 
-
-                <a href="index.jsp">Cerrar cesion</a> 
-                </div>    
+                    </div>    
             </div> 
                 <!-- Tabla de datos -->
 
@@ -108,4 +109,4 @@
                </div>  
             </div>
 
-<%@include file= "templates/footer.jsp" %>
+    <%@include file= "templates/footer.jsp" %>
