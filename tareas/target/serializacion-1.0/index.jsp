@@ -24,10 +24,10 @@
 
                   <div class="d-flex align-items-center mb-3 pb-1">
                     <i class="fas fa-cubes fa-2x me-3" style="color: #273B6F;"></i>
-                    <span class="h1 fw-bold mb-0">Logo</span>
+                    <span class="h1 fw-bold mb-0">Umariana</span>
                   </div>
 
-                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar Sesion :)</h5>
 
                   <div class="form-outline mb-4">
                     <input type="email" id="form2Example17" class="form-control form-control-lg" />
@@ -83,7 +83,7 @@
 
                         <!-- Campo de contrasenia -->
                         <div class="form-outline mb-4">
-                            <input type="password" id="contrasenia" name="contraseña" class="form-control form-control-lg" />
+                            <input type="password" id="contrasenia" name="contrasenia" class="form-control form-control-lg" />
                             <label class="form-label" for="contrasenia">Contraseña</label>
                         </div>
 
