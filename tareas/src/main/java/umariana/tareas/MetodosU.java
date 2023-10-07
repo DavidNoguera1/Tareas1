@@ -19,12 +19,10 @@ import javax.servlet.ServletContext;
  */
 // En esta clase se crearan todos los metodos que involucren a los usuarios
 // Esto incluye tambien su array list
-
 public class MetodosU {
 
     public static ArrayList<Usuario> darUsuarios = new ArrayList<>();
 
-    
     //Metodo para guardar los Usuarios en archivo
     public static void guardarUsuario(ArrayList<Usuario> usuarios, ServletContext context) throws IOException {
         String relativePath = "/data/usuarios.txt";
@@ -47,7 +45,8 @@ public class MetodosU {
 
     // Método para cargar los usuarios desde el archivo
     public static ArrayList<Usuario> cargarUsuario(ServletContext context) throws IOException {
-        ArrayList<Usuario> listaDeUsuarios = new ArrayList<>();
+        ArrayList<Usuario> darUsuarios = new ArrayList<>();
+
         String relativePath = "/data/usuarios.txt";
         String absPath = context.getRealPath(relativePath);
 
@@ -55,16 +54,21 @@ public class MetodosU {
             String linea = lector.readLine();
             while (linea != null) {
                 String[] datos = linea.split(",");
-                String cedula = datos[0];
-                String nombre = datos[1];
-                String contrasenia = datos[2];
+                if (datos.length == 3) {
+                    String cedula = datos[0];
+                    String nombre = datos[1];
+                    String contrasenia = datos[2];
 
-                Usuario nuevoUsuario = new Usuario();
-                nuevoUsuario.setCedula(cedula);
-                nuevoUsuario.setNombre(nombre);
-                nuevoUsuario.setContrasenia(contrasenia);
+                    Usuario nuevoUsuario = new Usuario();
+                    nuevoUsuario.setCedula(cedula);
+                    nuevoUsuario.setNombre(nombre);
+                    nuevoUsuario.setContrasenia(contrasenia);
 
-                listaDeUsuarios.add(nuevoUsuario);
+                    darUsuarios.add(nuevoUsuario);
+                } else {
+                    // Manejo del caso de que la línea no tenga los datos esperados
+                    System.out.println("La línea no contiene los datos esperados: " + linea);
+                }
                 linea = lector.readLine();
             }
             System.out.println("Datos de usuarios cargados exitosamente desde: usuarios.txt");
@@ -72,7 +76,7 @@ public class MetodosU {
             e.printStackTrace();
             System.out.println("Error al cargar los datos de usuarios: " + e.getMessage());
         }
-        return listaDeUsuarios;
+        return darUsuarios;
     }
 
 }
