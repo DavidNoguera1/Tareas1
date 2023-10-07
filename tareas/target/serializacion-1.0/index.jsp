@@ -68,29 +68,45 @@
             </div>
             <div class="modal-body">
                 <div id="usuario-details">
-                    <form id="registroForm" action="SvUsuario" method="post" onsubmit="return validarFormulario()">
+                    <form id="registroForm" action="SvUsuario" method="post" class="row g-3 needs-validation">
                         <!-- Campo de cédula -->
-                        <div class="input-group mb-3">
+                        <div class="col-md-4 input-group">
                             <label class="input-group-text" for="cedula">Cedula:</label>
-                            <input type="text" id="cedula" name="cedula" class="form-control" required />
+                            <input type="text" id="cedula" name="cedula" class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor, complete este campo.
+                            </div>
                         </div>
 
                         <!-- Campo de nombre de usuario -->
-                        <div class="input-group mb-3">
+                        <div class="col-md-4 input-group">
                             <label class="input-group-text" for="nombre">Nombre:</label>
-                            <input type="text" id="nombre" name="nombre" class="form-control" required />
+                            <input type="text" id="nombre" name="nombre" class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor, complete este campo.
+                            </div>
                         </div>
 
                         <!-- Campo de contraseña -->
-                        <div class="input-group mb-3">
+                        <div class="col-md-4 input-group">
                             <label class="input-group-text" for="contrasenia">Contraseña:</label>
-                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" required />
+                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Por favor, complete este campo.
+                            </div>
                         </div>
 
-                        <!-- Botón de envío -->
-                        <div class="modal-footer border-top-0">
+                        <div class="col-12">
                             <button type="submit" class="btn btn-primary">Registrarse</button>
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </form>
                 </div>
@@ -111,21 +127,6 @@
     });
 </script>
 
-<!-- Funcion para la validacion del formulario -->
-<script>
-    function validarFormulario() {
-        var cedula = document.getElementById('cedula').value;
-        var nombre = document.getElementById('nombre').value;
-        var contrasenia = document.getElementById('contrasenia').value;
 
-        if (cedula === "" || nombre === "" || contrasenia === "") {
-            alert("Por favor rellene este campo.");
-            return false; // Evita que el formulario se envíe si falta algún dato
-        }
-
-        // Si todos los campos están llenos, el formulario se enviará
-        return true;
-    }
-</script>
 
 <%@include file= "templates/footer.jsp" %>
