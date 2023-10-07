@@ -23,7 +23,7 @@ public class SvLogin extends HttpServlet {
             throws ServletException, IOException {
         // Aquí vienen los datos por doPost
         // Manda las variables pero no las muestra por motivos de seguridad
-        String nombreUsuario = request.getParameter("nombreUsuario");
+        String cedula = request.getParameter("cedula");
         String contrasenia = request.getParameter("contrasenia");
 
         // Obtener la lista actual de usuarios
@@ -33,7 +33,7 @@ public class SvLogin extends HttpServlet {
         boolean credencialesValidas = false;
         Usuario usuarioValido = null;
         for (Usuario usuario : misUsuarios) {
-            if (usuario.getNombre().equals(nombreUsuario) && usuario.getContrasenia().equals(contrasenia)) {
+            if (usuario.getCedula().equals(cedula) && usuario.getContrasenia().equals(contrasenia)) {
                 credencialesValidas = true;
                 usuarioValido = usuario;
                 break;

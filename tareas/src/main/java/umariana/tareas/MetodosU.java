@@ -80,13 +80,13 @@ public class MetodosU {
     }
 
     // Método para verificar el inicio de sesión de un usuario
-    public static boolean loginUsuario(String nombreUsuario, String contrasenia, ServletContext context) throws IOException {
+    public static boolean loginUsuario(String cedula, String contrasenia, ServletContext context) throws IOException {
         // Cargar la lista de usuarios desde el archivo
         ArrayList<Usuario> usuarios = cargarUsuario(context);
 
         // Iterar a través de la lista de usuarios y verificar las credenciales
         for (Usuario usuario : usuarios) {
-            if (usuario.getNombre().equals(nombreUsuario) && usuario.getContrasenia().equals(contrasenia)) {
+            if (usuario.getCedula().equals(cedula) && usuario.getContrasenia().equals(contrasenia)) {
                 // Las credenciales coinciden, usuario autenticado
                 return true;
             }
