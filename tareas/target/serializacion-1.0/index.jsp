@@ -20,7 +20,7 @@
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
-                                <form>
+                                <form id="loginForm" action="SvLogin" method="post">
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #273B6F;"></i>
@@ -30,20 +30,19 @@
                                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar Sesion :)</h5>
 
                                     <div class="form-outline mb-4">
-                                        <input type="email" id="form2Example17" class="form-control form-control-lg" />
-                                        <label class="form-label" for="form2Example17">Nombre de Usuario</label>
+                                        <input type="text" id="nombreUsuario" name="nombreUsuario" class="form-control form-control-lg" required/>
+                                        <label class="form-label" for="nombreUsuario">Nombre de Usuario</label>
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <input type="password" id="form2Example27" class="form-control form-control-lg" />
-                                        <label class="form-label" for="form2Example27">Contraseña</label>
+                                        <input type="password" id="contrasenia" name="contrasenia" class="form-control form-control-lg" required/>
+                                        <label class="form-label" for="contrasenia">Contraseña</label>
                                     </div>
 
                                     <div class="pt-1 mb-4">
-                                        <button class="btn btn-dark btn-lg btn-block" type="button">Login</button>
+                                        <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                                     </div>
 
-                                    <!-- <a class="small text-muted" href="#!">Forgot password?</a> -->
                                     <p class="mb-5 pb-lg-2" style="color: #393f81;">No está registrado? <a href="#!" style="color: #0000FF;" data-bs-toggle="modal" data-bs-target="#exampleModal">Regístrate aquí</a></p>
                                     <a href="#!" class="small text-muted">Terms of use.</a>
                                     <a href="#!" class="small text-muted">Privacy policy</a>

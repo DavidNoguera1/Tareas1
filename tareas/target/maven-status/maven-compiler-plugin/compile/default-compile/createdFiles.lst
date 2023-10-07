@@ -1,4 +1,5 @@
 umariana\tareas\MetodosU.class
+servlets\SvLogin.class
 servlets\SvUsuario.class
 umariana\tareas\Usuario.class
 umariana\tareas\JAXRSConfiguration.class
