@@ -26,24 +26,13 @@ public class SvLogin extends HttpServlet {
         String cedula = request.getParameter("cedula");
         String contrasenia = request.getParameter("contrasenia");
 
-        // Obtener la lista actual de usuarios
-        ArrayList<Usuario> misUsuarios = MetodosU.cargarUsuario(getServletContext());
+        // Verificar las credenciales del usuario y obtener el nombre de usuario autenticado
+        String nombreUsuarioAutenticado = MetodosU.loginUsuario(cedula, contrasenia, getServletContext());
 
-        // Verificar las credenciales del usuario
-        boolean credencialesValidas = false;
-        Usuario usuarioValido = null;
-        for (Usuario usuario : misUsuarios) {
-            if (usuario.getCedula().equals(cedula) && usuario.getContrasenia().equals(contrasenia)) {
-                credencialesValidas = true;
-                usuarioValido = usuario;
-                break;
-            }
-        }
-
-        if (credencialesValidas) {
+        if (nombreUsuarioAutenticado != null) {
             // Las credenciales son válidas, puedes redireccionar al usuario a la página deseada
-            // En este ejemplo, redireccionamos a una página llamada "perfil.jsp" y almacenamos el usuario en la sesión
-            request.getSession().setAttribute("usuario", usuarioValido);
+            // En este ejemplo, redireccionamos a una página llamada "perfil.jsp" y almacenamos el nombre de usuario en la sesión
+            request.getSession().setAttribute("usuario", nombreUsuarioAutenticado);
             response.sendRedirect("tareas.jsp");
         } else {
             // Las credenciales no son válidas, puedes mostrar un mensaje de error o redirigir a una página de inicio de sesión
