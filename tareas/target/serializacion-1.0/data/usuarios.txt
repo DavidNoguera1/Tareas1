@@ -1,2 +1,2 @@
-123,Pistacho,12345
-
+123,Pistacho,allowd
+12345,Noguera,btr4
