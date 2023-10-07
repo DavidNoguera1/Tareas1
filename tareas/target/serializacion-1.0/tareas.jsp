@@ -4,6 +4,9 @@
     Author     : David Noguera
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="umariana.tareas.MetodosU"%>
+<%@page import="umariana.tareas.Usuario"%>
 <%@include file= "templates/header.jsp" %>
 
 <a class="navbar-brand" href="#">
@@ -49,7 +52,7 @@
     </header>
 
 </a>
-</nav>
+
 
 <p> Bienvenido </p> <a href="index.jsp">Cerrar cesion</a> 
 
@@ -60,12 +63,12 @@
                 <!-- tarjeta de trabajo -->
                 <h3>Inserta tu tarea</h3>
                 <form action="SvPerro" method="POST">         
-                    <!-- Input para el nombre-->
+                    <!-- Input para el id-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="id">Id:</label>
                         <input type="text" name ="id" class="form-control">
                     </div>                                            
-                    <!-- Input para la raza-->
+                    <!-- Input para el titulo-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="titulo">Titulo:</label>
                         <input type="text" name="titulo" class="form-control">
@@ -80,11 +83,9 @@
                         <label class="input-group-text" for="fecha">Fecha:</label>
                         <input type="date" name="fecha" class="form-control">
                     </div>
-                        
                       <!-- Boton para agregar tarea --> 
                       <input type="submit" value="Agregar Tarea" class ="form-control"</>
                     </form><br>
-
                     </div>    
             </div> 
                 <!-- Tabla de datos -->
@@ -109,4 +110,4 @@
                </div>  
             </div>
 
-    <%@include file= "templates/footer.jsp" %>
+<%@include file= "templates/footer.jsp" %>
