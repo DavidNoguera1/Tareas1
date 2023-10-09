@@ -14,6 +14,7 @@ import umariana.tareas.Usuario;
 /**
  *
  * @author David Noguera
+ * Este Servlet manejara el registro de los usuarios en la ventana nodal
  */
 @WebServlet(name = "SvUsuario", urlPatterns = {"/SvUsuario"})
 public class SvUsuario extends HttpServlet {
@@ -35,24 +36,39 @@ public class SvUsuario extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String contrasenia = request.getParameter("contrasenia");
 
-        // Validar los datos si es necesario
-        // Crear un nuevo objeto Usuario y establecer los valores
-        Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setCedula(cedula);
-        nuevoUsuario.setNombre(nombre);
-        nuevoUsuario.setContrasenia(contrasenia);
-
         // Obtener la lista actual de usuarios
         ArrayList<Usuario> misUsuarios = MetodosU.cargarUsuario(getServletContext());
 
-        // Agregar el nuevo usuario a la lista de usuarios
-        misUsuarios.add(nuevoUsuario);
+        // Verificar si ya existe un usuario con la cédula proporcionada
+        boolean cedulaExistente = false;
+        for (Usuario usuario : misUsuarios) {
+            if (usuario.getCedula().equals(cedula)) {
+                cedulaExistente = true;
+                break;
+            }
+        }
 
-        // Guardar la lista de usuarios en el archivo usuarios.txt
-        MetodosU.guardarUsuario(misUsuarios, getServletContext());
+        if (cedulaExistente) {
+            // Ya existe un usuario con esa cédula, muestra un mensaje de error
+            response.setContentType("text/plain");
+            response.getWriter().write("Empleamos las cédulas como identificadores únicos, ya existe un usuario registrado con esa cédula");
+        } else {
+            // No existe un usuario con esa cédula, crea el nuevo usuario
+            // Crear un nuevo objeto Usuario y establecer los valores
+            Usuario nuevoUsuario = new Usuario();
+            nuevoUsuario.setCedula(cedula);
+            nuevoUsuario.setNombre(nombre);
+            nuevoUsuario.setContrasenia(contrasenia);
 
-        // Redireccionar a la página web destino
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+            // Agregar el nuevo usuario a la lista de usuarios
+            misUsuarios.add(nuevoUsuario);
+
+            // Guardar la lista de usuarios en el archivo usuarios.txt
+            MetodosU.guardarUsuario(misUsuarios, getServletContext());
+
+            // Redireccionar a la página web destino
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
     }
 
     @Override

@@ -14,12 +14,13 @@ import umariana.tareas.Usuario;
 /**
  *
  * @author David Noguera
+ * Este Servlet manejara el proceso de Log in
  */
 @WebServlet(name = "SvLogin", urlPatterns = {"/SvLogin"})
 public class SvLogin extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+   protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Aquí vienen los datos por doPost
         // Manda las variables pero no las muestra por motivos de seguridad
@@ -35,11 +36,12 @@ public class SvLogin extends HttpServlet {
             request.getSession().setAttribute("usuario", nombreUsuarioAutenticado);
             response.sendRedirect("tareas.jsp");
         } else {
-            // Las credenciales no son válidas, puedes mostrar un mensaje de error o redirigir a una página de inicio de sesión
-            response.sendRedirect("index.jsp"); // Redirecciona a una página de inicio de sesión con un parámetro de error
+            // Las credenciales no son válidas, muestra un mensaje de error
+            response.setContentType("text/plain");
+            response.getWriter().write("Error al iniciar sesión (Datos incorrectos o el usuario no existe). Vuelva a intentarlo.");
         }
     }
-
+   
     @Override
     public String getServletInfo() {
         return "Short description";
