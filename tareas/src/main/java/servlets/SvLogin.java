@@ -20,7 +20,7 @@ import umariana.tareas.Usuario;
 public class SvLogin extends HttpServlet {
 
     @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Aquí vienen los datos por doPost
         // Manda las variables pero no las muestra por motivos de seguridad
@@ -32,13 +32,11 @@ public class SvLogin extends HttpServlet {
 
         if (nombreUsuarioAutenticado != null) {
             // Las credenciales son válidas, puedes redireccionar al usuario a la página deseada
-            // En este ejemplo, redireccionamos a una página llamada "perfil.jsp" y almacenamos el nombre de usuario en la sesión
             request.getSession().setAttribute("usuario", nombreUsuarioAutenticado);
             response.sendRedirect("tareas.jsp");
         } else {
-            // Las credenciales no son válidas, muestra un mensaje de error
-            response.setContentType("text/plain");
-            response.getWriter().write("Error al iniciar sesión (Datos incorrectos o el usuario no existe). Vuelva a intentarlo.");
+            // Las credenciales no son válidas, redirecciona a "index.jsp" con un parámetro de alerta
+            response.sendRedirect("index.jsp?alert=error");
         }
     }
    

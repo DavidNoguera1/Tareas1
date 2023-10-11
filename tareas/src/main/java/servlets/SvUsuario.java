@@ -50,8 +50,8 @@ public class SvUsuario extends HttpServlet {
 
         if (cedulaExistente) {
             // Ya existe un usuario con esa cédula, muestra un mensaje de error
-            response.setContentType("text/plain");
-            response.getWriter().write("Empleamos las cédulas como identificadores únicos, ya existe un usuario registrado con esa cédula");
+            // En caso de un error en el registro, redirigir a la página de inicio con una alerta
+            response.sendRedirect("index.jsp?alert=registro-error");
         } else {
             // No existe un usuario con esa cédula, crea el nuevo usuario
             // Crear un nuevo objeto Usuario y establecer los valores
@@ -67,7 +67,9 @@ public class SvUsuario extends HttpServlet {
             MetodosU.guardarUsuario(misUsuarios, getServletContext());
 
             // Redireccionar a la página web destino
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            response.sendRedirect("index.jsp?alert=registro-success");
+            
+            
         }
     }
 

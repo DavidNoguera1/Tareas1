@@ -20,7 +20,26 @@
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
 
+
                                 <form id="loginForm" action="SvLogin" method="post">
+
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;" id="errorAlert">
+                                        Datos incorrectos o usuario no existente. Vuelva a intentarlo.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;" id="registroSuccessAlert">
+                                        ¡Registro exitoso! El usuario se añadio al sistema.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+
+
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;" id="registroErrorAlert">
+                                        La cedula ingresada ya esta registrada a un usuario existente. Vuelva a intentarlo con otro numero de cedula.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+
+
 
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-cubes fa-2x me-3" style="color: #273B6F;"></i>
@@ -28,6 +47,7 @@
                                     </div>
 
                                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Iniciar Sesion :)</h5>
+
 
                                     <div class="form-outline mb-4">
                                         <input type="text" id="cedula" name="cedula" class="form-control form-control-lg" required/>
@@ -62,23 +82,25 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-dark text-white">
             <div class="modal-header border-bottom-0">
-                <h5 class="modal-title" id="exampleModalLabel">Registrarse (Ingrese sus datos)</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Registro(Ingrese sus datos, no se permiten espacios en la cedula y contraseña)</h5>
                 <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div id="usuario-details">
                     <form id="registroForm" action="SvUsuario" method="post" class="row g-3 needs-validation">
                         <!-- Campo de cédula -->
+                        <!-- Campo de cédula -->
                         <div class="col-md-4 input-group">
-                            <label class="input-group-text" for="cedula">Cedula:</label>
-                            <input type="text" id="cedula" name="cedula" class="form-control" required>
+                            <label class="input-group-text" for="cedula">Número de cédula:</label>
+                            <input type="text" id="cedula" name="cedula" class="form-control" required pattern="[0-9]*" title="Ingresa solo números (sin espacios ni otros caracteres)" />
                             <div class="valid-feedback">
                                 Looks good!
                             </div>
                             <div class="invalid-feedback">
-                                Por favor, complete este campo.
+                                Por favor, ingresa solo números (sin espacios ni otros caracteres).
                             </div>
                         </div>
+
 
                         <!-- Campo de nombre de usuario -->
                         <div class="col-md-4 input-group">
@@ -95,12 +117,12 @@
                         <!-- Campo de contraseña -->
                         <div class="col-md-4 input-group">
                             <label class="input-group-text" for="contrasenia">Contraseña:</label>
-                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" required>
+                            <input type="password" id="contrasenia" name="contrasenia" class="form-control" required pattern="[^\s]+" title="No se permiten espacios" />
                             <div class="valid-feedback">
                                 Looks good!
                             </div>
                             <div class="invalid-feedback">
-                                Por favor, complete este campo.
+                                Por favor, complete este campo sin espacios.
                             </div>
                         </div>
 
@@ -125,6 +147,57 @@
         });
     });
 </script>
+
+
+
+<!-- JavaScript para mostrar la alerta cuando falle el proceso de login -->
+<script>
+    // JavaScript para mostrar la alerta cuando sea necesario
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtén la alerta por su ID
+        const errorAlert = document.getElementById('errorAlert');
+
+        // Verifica si hay un parámetro de alerta en la URL (por ejemplo, '?alert=error')
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('alert') && urlParams.get('alert') === 'error') {
+            // Muestra la alerta si el parámetro de alerta es 'error'
+            errorAlert.style.display = 'block';
+        }
+    });
+</script>
+
+<!-- JavaScript para mostrar la alerta de registro cuando exista una cedula previamente registrada -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtén la alerta por su ID
+        const registroErrorAlert = document.getElementById('registroErrorAlert');
+
+        // Verifica si hay un parámetro de alerta en la URL (por ejemplo, '?alert=registro-error')
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('alert') && urlParams.get('alert') === 'registro-error') {
+            // Muestra la alerta de registro si el parámetro de alerta es 'registro-error'
+            registroErrorAlert.style.display = 'block';
+        }
+    });
+</script>
+
+<!-- JavaScript para mostrar la alerta de registro exitoso cuando sea necesario -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Obtén la alerta por su ID
+        const registroSuccessAlert = document.getElementById('registroSuccessAlert');
+
+        // Verifica si hay un parámetro de alerta en la URL (por ejemplo, '?alert=registro-success')
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('alert') && urlParams.get('alert') === 'registro-success') {
+            // Muestra la alerta de registro exitoso si el parámetro de alerta es 'registro-success'
+            registroSuccessAlert.style.display = 'block';
+        }
+    });
+</script>
+
+
+
 
 
 
