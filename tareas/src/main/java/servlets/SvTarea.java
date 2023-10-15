@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,10 +46,11 @@ public class SvTarea extends HttpServlet {
 
         listaTareas.agregarTarea(nuevaTarea);
 
+        // Guarda la tarea en el archivo
+        ListasE.guardarLista(listaTareas, getServletContext());
+
         // Redirige a la página tareas.jsp
         response.sendRedirect("tareas.jsp");
     }
+
 }
-
-
-
