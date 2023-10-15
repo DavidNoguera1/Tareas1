@@ -1,6 +1,10 @@
 umariana\tareas\MetodosU.class
+SvTarea.class
+umariana\tareas\Tareas.class
 servlets\SvLogin.class
+umariana\tareas\ListasE.class
 servlets\SvUsuario.class
+umariana\tareas\ListasE$Nodo.class
 umariana\tareas\Usuario.class
 umariana\tareas\JAXRSConfiguration.class
 umariana\tareas\resources\JavaEE8Resource.class

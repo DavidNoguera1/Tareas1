@@ -4,6 +4,8 @@
     Author     : David Noguera
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="umariana.tareas.ListasE"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="umariana.tareas.MetodosU"%>
 <%@page import="umariana.tareas.Usuario"%>
@@ -49,7 +51,7 @@
 
 
 
-<p> Bienvenido <%= session.getAttribute("usuario") %> / <a href="index.jsp">Cerrar cesion</a>  </p> 
+<p> Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar cesion</a>  </p> 
 
 <div class="container p-4"> <!-- clase contenedora -->
     <div class="row">
@@ -57,7 +59,7 @@
             <div class="card card-body"> 
                 <!-- tarjeta de trabajo -->
                 <h3>Inserta tu tarea</h3>
-                <form action="SvPerro" method="POST">         
+                <form action="SvTarea" method="POST">         
                     <!-- Input para el id-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="id">Id:</label>
@@ -98,8 +100,25 @@
                         </tr>
                     </thead>
                     <tbody>
-            
-                    </tbody> 
+                    <%
+                        ListasE lista = (ListasE) session.getAttribute("listaTareas");
+                        if (lista != null) {
+                            ListasE.Nodo current = lista.inicio;
+                            while (current != null) {
+                    %>
+                        <tr>
+                            <td><%= current.tarea.getId()%></td>
+                            <td><%= current.tarea.getTitulo()%></td>
+                            <td><%= current.tarea.getDescripcion()%></td>
+                            <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
+                            <td>Acciones</td>
+                        </tr>
+                    <%
+                                current = current.siguiente;
+                            }
+                        }
+                    %>
+                    </tbody>
                 </table>
                 </div>
                </div>  
