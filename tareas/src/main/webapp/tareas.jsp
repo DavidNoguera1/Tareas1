@@ -86,62 +86,42 @@
                     </div>    
             </div> 
                 <!-- Tabla de datos -->
-
-
             <div class="col-md-8">
-                    <table class="table table-bordered table-dark">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Titulo</th>
-                            <th>Descripcion</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <table class="table table-bordered table-dark">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
                     <%
                         ListasE lista = (ListasE) session.getAttribute("listaTareas");
 
                         if (lista != null) {
                             ListasE.Nodo current = lista.inicio;
-                    %>
-    <table class="table table-bordered table-dark">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Titulo</th>
-            <th>Descripcion</th>
-            <th>Fecha</th>
-            <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-                        <%
                             while (current != null) {
-                        %>
-                        <tr>
-                            <td><%= current.tarea.getId()%></td>
-                            <td><%= current.tarea.getTitulo()%></td>
-                            <td><%= current.tarea.getDescripcion()%></td>
-                            <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
-                            <td>Acciones</td>
-                        </tr>
-                        <%
+                    %>
+                <tr>
+                    <td><%= current.tarea.getId()%></td>
+                    <td><%= current.tarea.getTitulo()%></td>
+                    <td><%= current.tarea.getDescripcion()%></td>
+                    <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
+                    <td>Acciones</td>
+                </tr>
+                    <%
                                 current = current.siguiente;
                             }
-                        %>
-                    </tbody>
-                    </table>
-                <%
-                    } else {
-                        out.println("No hay tareas disponibles.");
-                    }
-                %>
-
-                    </tbody>
-                </table>
-                </div>
+                        } else {
+                            out.println("No hay tareas disponibles.");
+                        }
+                    %>
+                            </tbody>
+                        </table>
+                    </div>
                </div>  
             </div>
 
