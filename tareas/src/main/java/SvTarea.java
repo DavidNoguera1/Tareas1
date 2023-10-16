@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +13,14 @@ import umariana.tareas.Tareas;
 
 @WebServlet(name = "SvTarea", urlPatterns = {"/SvTarea"})
 public class SvTarea extends HttpServlet {
+    
+    private ListasE listaTareas;
+
+    @Override
+    public void init() throws ServletException {
+        // Inicializa la lista de tareas al cargar el servlet
+        listaTareas = ListasE.leerLista(getServletContext());
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -54,3 +61,4 @@ public class SvTarea extends HttpServlet {
     }
 
 }
+

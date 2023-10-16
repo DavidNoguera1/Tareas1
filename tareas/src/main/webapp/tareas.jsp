@@ -102,10 +102,24 @@
                     <tbody>
                     <%
                         ListasE lista = (ListasE) session.getAttribute("listaTareas");
+
                         if (lista != null) {
                             ListasE.Nodo current = lista.inicio;
-                            while (current != null) {
                     %>
+    <table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Titulo</th>
+            <th>Descripcion</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+                        <%
+                            while (current != null) {
+                        %>
                         <tr>
                             <td><%= current.tarea.getId()%></td>
                             <td><%= current.tarea.getTitulo()%></td>
@@ -113,11 +127,18 @@
                             <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
                             <td>Acciones</td>
                         </tr>
-                    <%
+                        <%
                                 current = current.siguiente;
                             }
-                        }
-                    %>
+                        %>
+                    </tbody>
+                    </table>
+                <%
+                    } else {
+                        out.println("No hay tareas disponibles.");
+                    }
+                %>
+
                     </tbody>
                 </table>
                 </div>
