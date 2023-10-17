@@ -80,6 +80,33 @@
                         <label class="input-group-text" for="fecha">Fecha:</label>
                         <input type="date" name="fecha" class="form-control">
                     </div>
+                      
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Primero en la lista 
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Ultimo en la lista 
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Antes de
+                        </label>
+                      </div>
+                      
+                      <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          Despues de
+                        </label>
+                      </div>
+                      
                       <!-- Boton para agregar tarea --> 
                       <input type="submit" value="Agregar Tarea" class ="form-control"</>
                     </form><br>
@@ -110,7 +137,11 @@
                     <td><%= current.tarea.getTitulo()%></td>
                     <td><%= current.tarea.getDescripcion()%></td>
                     <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
-                    <td>Acciones</td>
+                    <td><button onclick=' if (confirm("¿Desea eliminar la tarea?")) {
+                                location.href = "SvCanino?tipo=delete&nombre="
+                            }' class="btn btn primary" 
+                                    ><i class="fa-solid fa-trash"></i></button>  
+                    </td>
                 </tr>
                     <%
                                 current = current.siguiente;
