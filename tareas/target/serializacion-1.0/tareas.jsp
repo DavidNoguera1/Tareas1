@@ -106,6 +106,10 @@
                           Despues de
                         </label>
                       </div>
+                      <div class="input-group mb-3">
+                        <label class="input-group-text" for="id">Ingrese Id tarea:</label>
+                        <input type="text" name ="id" class="form-control">
+                    </div> 
                       
                       <!-- Boton para agregar tarea --> 
                       <input type="submit" value="Agregar Tarea" class ="form-control"</>
