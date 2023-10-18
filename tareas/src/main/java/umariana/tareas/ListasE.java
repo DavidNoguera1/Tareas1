@@ -12,13 +12,11 @@ import java.util.Date;
 import javax.servlet.ServletContext;
 
 public class ListasE {
-
     public Nodo inicio = null;
     public Nodo fin = null;
 
     // Clase interna Nodo que representa un elemento de la lista
     public class Nodo {
-
         public Tareas tarea;
         public Nodo siguiente;
 
@@ -29,11 +27,7 @@ public class ListasE {
     }
 
     public boolean verificarContenido() {
-        if (inicio == null) {
-            return true;
-        } else {
-            return false;
-        }
+        return inicio == null;
     }
 
     // Método para agregar una nueva tarea al comienzo de la lista
@@ -65,6 +59,88 @@ public class ListasE {
             fin = nuevoNodo;
         }
     }
+
+    /**
+     * Adiciona una tarea a la lista de tareas antes de la tarea con el id especificado.
+     *
+     * @param id El id de la tarea antes de la cual se va a insertar la nueva tarea.
+     * @param tarea La tarea que se va a agregar.
+     */
+    public void agregarTareaAntesDe(int id, Tareas tarea) {
+        if (inicio == null) {
+            // Puedes manejar esto de alguna manera, por ejemplo, lanzar una excepción o manejar el caso especial.
+            // throw new NoExisteException(id);
+            return;
+        } else if (id == inicio.tarea.getId()) {
+            Nodo nuevoNodo = new Nodo(tarea);
+            nuevoNodo.siguiente = inicio;
+            inicio = nuevoNodo;
+        } else {
+            Nodo anterior = localizarAnteriorPorId(id);
+            if (anterior == null) {
+                // Puedes manejar esto de alguna manera, por ejemplo, lanzar una excepción o manejar el caso especial.
+                // throw new NoExisteException(id);
+                return;
+            }
+            Nodo nuevoNodo = new Nodo(tarea);
+            nuevoNodo.siguiente = anterior.siguiente;
+            anterior.siguiente = nuevoNodo;
+        }
+    }
+
+    
+    /**
+     * Adiciona una tarea a la lista de tareas después de la tarea con el id especificado.
+     *
+     * @param id El id de la tarea después de la cual se va a insertar la nueva tarea.
+     * @param tarea La tarea que se va a agregar.
+     */
+    public void agregarTareaDespuesDe(int id, Tareas tarea) {
+        Nodo anterior = localizarPorId(id);
+
+        if (anterior == null) {
+            // Puedes manejar esto de alguna manera, por ejemplo, lanzar una excepción o manejar el caso especial.
+            // throw new NoExisteException(id);
+            return;
+        } else {
+            Nodo nuevoNodo = new Nodo(tarea);
+            nuevoNodo.siguiente = anterior.siguiente;
+            anterior.siguiente = nuevoNodo;
+        }
+    }
+
+    /**
+     * Busca la tarea con el id dado en la lista de tareas.
+     *
+     * @param id El id de la tarea que se va a buscar.
+     * @return La tarea con el id especificado. Si la tarea no existe, se retorna null.
+     */
+    public Nodo localizarPorId(int id) {
+        Nodo actual = inicio;
+        while (actual != null && actual.tarea.getId() != id) {
+            actual = actual.siguiente;
+        }
+        return actual;
+    }
+
+    /**
+     * Busca la tarea anterior a la tarea con el id especificado.
+     *
+     * @param id El id de la tarea de la cual se desea encontrar la tarea anterior.
+     * @return La tarea anterior a la tarea con el id dado. Se retorna null si la tarea con el id dado no existe o si es la primera de la lista.
+     */
+    public Nodo localizarAnteriorPorId(int id) {
+        Nodo anterior = null;
+        Nodo actual = inicio;
+
+        while (actual != null && actual.tarea.getId() != id) {
+            anterior = actual;
+            actual = actual.siguiente;
+        }
+
+        return (actual != null) ? anterior : null;
+    }
+
 
     // Método para guardar la lista en un archivo de texto
     public static void guardarLista(ListasE listaActualizada, ServletContext context) {

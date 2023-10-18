@@ -44,7 +44,6 @@
                     </div>
                       
                     <!-- Radio buttons -->
-                    
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="posicion" id="primeroRadio" value="primero">
                             <label class="form-check-label" for="primeroRadio">
@@ -57,6 +56,21 @@
                                 Ultimo en la lista
                             </label>
                         </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posicion" id="antesDeRadio" value="antesDe">
+                            <label class="form-check-label" for="antesDeRadio">
+                                Antes de Tarea con ID:
+                            </label>
+                            <input type="text" name="idAntesDe" id="idAntesDe" placeholder="ID">
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posicion" id="despuesDeRadio" value="despuesDe">
+                            <label class="form-check-label" for="despuesDeRadio">
+                                Después de Tarea con ID:
+                            </label>
+                            <input type="text" name="idDespuesDe" id="idDespuesDe" placeholder="ID">
+                        </div>
+
 
                       <!-- Boton para agregar tarea --> 
                       <input type="submit" value="Agregar Tarea" class ="form-control"</>
@@ -118,48 +132,60 @@
     boolean listaVacia = (lista == null) || lista.verificarContenido();
 %>
 <script>
-    var primeroRadio = document.getElementById("primeroRadio");
-    var ultimoRadio = document.getElementById("ultimoRadio");
-
     var listaVacia = <%= listaVacia %>;
+    var radios = document.querySelectorAll(".form-check-input");
+    var labels = document.querySelectorAll(".form-check-label");
+    var idAntesDeInput = document.getElementById("idAntesDe");
+    var idDespuesDeInput = document.getElementById("idDespuesDe");
 
     if (listaVacia) {
-        primeroRadio.style.display = "none";
-        ultimoRadio.style.display = "none";
-
-        var labels = document.querySelectorAll(".form-check-label");
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.display = "none";
-        }
+        radios.forEach(function(radio) {
+            radio.style.display = "none";
+        });
+        labels.forEach(function(label) {
+            label.style.display = "none";
+        });
+        idAntesDeInput.style.display = "none";
+        idDespuesDeInput.style.display = "none";
     } else {
-        primeroRadio.style.display = "block";
-        ultimoRadio.style.display = "block";
-
-        var labels = document.querySelectorAll(".form-check-label");
-        for (var i = 0; i < labels.length; i++) {
-            labels[i].style.display = "block";
-        }
+        radios.forEach(function(radio) {
+            radio.style.display = "block";
+        });
+        labels.forEach(function(label) {
+            label.style.display = "block";
+        });
+        idAntesDeInput.style.display = "block";
+        idDespuesDeInput.style.display = "block";
     }
 </script>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var form = document.querySelector("form"); // Selecciona el formulario
 
         form.addEventListener("submit", function (event) {
-            var primeroRadio = document.getElementById("primeroRadio");
-            var ultimoRadio = document.getElementById("ultimoRadio");
+            var radios = document.querySelectorAll(".form-check-input");
+            var idAntesDeInput = document.getElementById("idAntesDe");
+            var idDespuesDeInput = document.getElementById("idDespuesDe");
 
-            if (primeroRadio.checked) {
+            if (radios[0].checked) {
                 // Si "Primero en la lista" está seleccionado, establece el valor "primero" en el formulario
                 form.action = "SvTarea?method=agregarTareaAlComienzo";
-            } else if (ultimoRadio.checked) {
+            } else if (radios[1].checked) {
                 // Si "Ultimo en la lista" está seleccionado, establece el valor "ultimo" en el formulario
                 form.action = "SvTarea?method=agregarTareaAlFinal";
+            } else if (radios[2].checked) {
+                // Si "Antes de" está seleccionado, establece el valor "antesDe" en el formulario
+                form.action = "SvTarea?method=agregarTareaAntesDe&id=" + idAntesDeInput.value;
+            } else if (radios[3].checked) {
+                // Si "Después de" está seleccionado, establece el valor "despuesDe" en el formulario
+                form.action = "SvTarea?method=agregarTareaDespuesDe&id=" + idDespuesDeInput.value;
             } else {
-                // Si ninguno de los dos se seleccionó, se agrega al comienzo por defecto
+                // Si ninguno de los radio buttons está seleccionado, se agrega al comienzo por defecto
                 form.action = "SvTarea?method=agregarTareaAlComienzo";
             }
         });
     });
 </script>
+
