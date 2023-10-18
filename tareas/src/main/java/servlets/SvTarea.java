@@ -1,3 +1,5 @@
+package servlets;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +15,7 @@ import umariana.tareas.Tareas;
 
 @WebServlet(name = "SvTarea", urlPatterns = {"/SvTarea"})
 public class SvTarea extends HttpServlet {
-    
+
     private ListasE listaTareas;
 
     @Override
@@ -29,6 +31,7 @@ public class SvTarea extends HttpServlet {
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
         String fecha = request.getParameter("fecha");
+        String posicion = request.getParameter("posicion"); // Obtén el valor del radio button
 
         // Realizar el cast de la fecha
         Date fechaVencimiento = null;
@@ -51,7 +54,13 @@ public class SvTarea extends HttpServlet {
             session.setAttribute("listaTareas", listaTareas);
         }
 
-        listaTareas.agregarTarea(nuevaTarea);
+        if ("ultimo".equals(posicion)) {
+            // Agregar la tarea al final de la lista
+            listaTareas.agregarTareaAlFinal(nuevaTarea);
+        } else {
+            // Por defecto o si se selecciona "primero", agregar al comienzo
+            listaTareas.agregarTareaAlComienzo(nuevaTarea);
+        }
 
         // Guarda la tarea en el archivo
         ListasE.guardarLista(listaTareas, getServletContext());
@@ -61,4 +70,3 @@ public class SvTarea extends HttpServlet {
     }
 
 }
-

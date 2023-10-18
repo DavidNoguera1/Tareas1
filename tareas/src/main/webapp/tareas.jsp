@@ -10,48 +10,10 @@
 <%@page import="umariana.tareas.MetodosU"%>
 <%@page import="umariana.tareas.Usuario"%>
 <%@include file= "templates/header.jsp" %>
+<%@include file= "templates/navbar.jsp" %>
 
 
-
-<nav class=" navbar navbar-expand-lg navbar-dark bg-dark ">
-    <div class="container-fluid">
-        <!-- Pagina principal -->
-        <a class="navbar-brand" href="index.jsp">Tareas Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Mostrar opciones para ordenar -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!-- Mostrar opciones para ordenar -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Ordenar
-                    </a>
-                </li>
-                <!-- Mostrar opciones para buscar -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Buscar
-                    </a>
-                </li>
-            </ul>
-
-            <!-- Form para buscar // Todavia no se emplea // Ignore la descripcion -->
-            <form action="SvCanino" method="GET" class="d-flex" role="search">
-                <input class="form-control me-2" name="perroBuscar" type="search" placeholder="Search" aria-label="Search">
-                <!-- Input Hidden como bandera que manda tipo=search -->
-                <input type="hidden" name="tipo" value="search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
-            </form>
-        </div>
-    </div>
-</nav>
-
-
-
-<p> Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar cesion</a>  </p> 
+<p> Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar sesion</a>  </p> 
 
 <div class="container p-4"> <!-- clase contenedora -->
     <div class="row">
@@ -81,72 +43,59 @@
                         <input type="date" name="fecha" class="form-control">
                     </div>
                       
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                          Primero en la lista 
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
-                          Ultimo en la lista 
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                          Antes de
-                        </label>
-                      </div>
-                      
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                        <label class="form-check-label" for="flexRadioDefault2">
-                          Despues de
-                        </label>
-                      </div>
-                      <div class="input-group mb-3">
-                        <label class="input-group-text" for="id">Ingrese Id tarea:</label>
-                        <input type="text" name ="id" class="form-control">
-                    </div> 
-                      
+                    <!-- Radio buttons -->
+                    
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posicion" id="primeroRadio" value="primero">
+                            <label class="form-check-label" for="primeroRadio">
+                                Primero en la lista
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="posicion" id="ultimoRadio" value="ultimo">
+                            <label class="form-check-label" for="ultimoRadio">
+                                Ultimo en la lista
+                            </label>
+                        </div>
+
                       <!-- Boton para agregar tarea --> 
                       <input type="submit" value="Agregar Tarea" class ="form-control"</>
-                    </form><br>
-                    </div>    
-            </div> 
-                <!-- Tabla de datos -->
-            <div class="col-md-8">
-    <table class="table table-bordered table-dark">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titulo</th>
-                <th>Descripcion</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
+                </form><br>
+            </div>    
+        </div> 
+        
+        <!-- Tabla de datos -->
+        <div class="col-md-8">
+            <table class="table table-bordered table-dark">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Titulo</th>
+                        <th>Descripcion</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
                     <%
-                        ListasE lista = (ListasE) session.getAttribute("listaTareas");
+                        ListasE listaTareas = (ListasE) session.getAttribute("listaTareas");
 
-                        if (lista != null) {
-                            ListasE.Nodo current = lista.inicio;
+                        if (listaTareas != null) {
+                            ListasE.Nodo current = listaTareas.inicio;
                             while (current != null) {
                     %>
-                <tr>
-                    <td><%= current.tarea.getId()%></td>
-                    <td><%= current.tarea.getTitulo()%></td>
-                    <td><%= current.tarea.getDescripcion()%></td>
-                    <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
-                    <td><button onclick=' if (confirm("¿Desea eliminar la tarea?")) {
-                                location.href = "SvCanino?tipo=delete&nombre="
-                            }' class="btn btn primary" 
-                                    ><i class="fa-solid fa-trash"></i></button>  
-                    </td>
-                </tr>
+                        <tr>
+                            <td><%= current.tarea.getId()%></td>
+                            <td><%= current.tarea.getTitulo()%></td>
+                            <td><%= current.tarea.getDescripcion()%></td>
+                            <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
+                            <td>
+                                <button onclick=' if (confirm("¿Desea eliminar la tarea?")) {
+                                            location.href = "SvCanino?tipo=delete&nombre="
+                                        }' class="btn btn primary" 
+                                ><i class="fa-solid fa-trash"></i></button>  
+                            </td>
+                        </tr>
                     <%
                                 current = current.siguiente;
                             }
@@ -154,10 +103,63 @@
                             out.println("No hay tareas disponibles.");
                         }
                     %>
-                            </tbody>
-                        </table>
-                    </div>
-               </div>  
-            </div>
+                </tbody>
+            </table>
+        </div>
+    </div>  
+</div>
 
 <%@include file= "templates/footer.jsp" %>
+
+
+<!-- Funcion que oculta los radio button mientras la lista este vacia -->
+<%
+    ListasE lista = (ListasE) session.getAttribute("listaTareas");
+    boolean listaVacia = (lista == null) || lista.verificarContenido();
+%>
+<script>
+    var primeroRadio = document.getElementById("primeroRadio");
+    var ultimoRadio = document.getElementById("ultimoRadio");
+
+    var listaVacia = <%= listaVacia %>;
+
+    if (listaVacia) {
+        primeroRadio.style.display = "none";
+        ultimoRadio.style.display = "none";
+
+        var labels = document.querySelectorAll(".form-check-label");
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.display = "none";
+        }
+    } else {
+        primeroRadio.style.display = "block";
+        ultimoRadio.style.display = "block";
+
+        var labels = document.querySelectorAll(".form-check-label");
+        for (var i = 0; i < labels.length; i++) {
+            labels[i].style.display = "block";
+        }
+    }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.querySelector("form"); // Selecciona el formulario
+
+        form.addEventListener("submit", function (event) {
+            var primeroRadio = document.getElementById("primeroRadio");
+            var ultimoRadio = document.getElementById("ultimoRadio");
+
+            if (primeroRadio.checked) {
+                // Si "Primero en la lista" está seleccionado, establece el valor "primero" en el formulario
+                form.action = "SvTarea?method=agregarTareaAlComienzo";
+            } else if (ultimoRadio.checked) {
+                // Si "Ultimo en la lista" está seleccionado, establece el valor "ultimo" en el formulario
+                form.action = "SvTarea?method=agregarTareaAlFinal";
+            } else {
+                // Si ninguno de los dos se seleccionó, se agrega al comienzo por defecto
+                form.action = "SvTarea?method=agregarTareaAlComienzo";
+            }
+        });
+    });
+</script>

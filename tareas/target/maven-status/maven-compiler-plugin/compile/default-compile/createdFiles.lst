@@ -1,8 +1,8 @@
 umariana\tareas\MetodosU.class
-SvTarea.class
 umariana\tareas\Tareas.class
 servlets\SvLogin.class
 umariana\tareas\ListasE.class
+servlets\SvTarea.class
 servlets\SvUsuario.class
 umariana\tareas\ListasE$Nodo.class
 umariana\tareas\Usuario.class

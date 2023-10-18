@@ -36,8 +36,23 @@ public class ListasE {
         }
     }
 
+    // Método para agregar una nueva tarea al comienzo de la lista
+    public void agregarTareaAlComienzo(Tareas tarea) {
+        Nodo nuevoNodo = new Nodo(tarea);
+
+        if (inicio == null) {
+            // Si la lista está vacía, el nuevo nodo es tanto el inicio como el fin
+            inicio = nuevoNodo;
+            fin = nuevoNodo;
+        } else {
+            // Si no está vacía, el nuevo nodo se agrega al comienzo y se actualiza el inicio
+            nuevoNodo.siguiente = inicio;
+            inicio = nuevoNodo;
+        }
+    }
+
     // Método para agregar una nueva tarea al final de la lista
-    public void agregarTarea(Tareas tarea) {
+    public void agregarTareaAlFinal(Tareas tarea) {
         Nodo nuevoNodo = new Nodo(tarea);
 
         if (inicio == null) {
@@ -100,7 +115,7 @@ public class ListasE {
                     Date fechaV = dateFormat.parse(fechaVStr);
 
                     Tareas tarea = new Tareas(id, titulo, descripcion, fechaV);
-                    lista.agregarTarea(tarea);
+                    lista.agregarTareaAlComienzo(tarea);
                 }
             }
         } catch (IOException | ParseException e) {
@@ -108,7 +123,5 @@ public class ListasE {
         }
         return lista;
     }
-    
-    
 
 }
