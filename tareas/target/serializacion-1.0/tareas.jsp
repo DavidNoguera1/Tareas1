@@ -34,7 +34,7 @@
                         ¡Ya existe una tarea con el ID proporcionado!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                    
+
                     <!-- Input para el id-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="id">Id:</label>
@@ -111,14 +111,18 @@
                             ListasE.Nodo current = listaTareas.inicio;
                             while (current != null) {
                     %>
-                        <tr>
-                            <td><%= current.tarea.getId()%></td>
-                            <td><%= current.tarea.getTitulo()%></td>
-                            <td><%= current.tarea.getDescripcion()%></td>
-                            <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
-                            <td>
-                            <a onclick="eliminarTarea(<%= current.tarea.getId()%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i> </a></td>
-                        </tr>
+                    <tr>
+                        <td><%= current.tarea.getId()%></td>
+                        <td><%= current.tarea.getTitulo()%></td>
+                        <td><%= current.tarea.getDescripcion()%></td>
+                        <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
+                        <td>
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tareaModal"
+                               onclick="showTareaDetails(<%= current.tarea.getId()%>, '<%= current.tarea.getTitulo()%>', '<%= current.tarea.getDescripcion()%>', '<%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%>')">
+                                <i class="fas fa-eye"></i> </a>
+                            <a onclick="eliminarTarea(<%= current.tarea.getId()%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
                     <%
                                 current = current.siguiente;
                             }
@@ -134,6 +138,40 @@
 
 <%@include file= "templates/footer.jsp" %>
 
+
+<!-- Ventana Modal Informacion Tareas -->
+<div class="modal fade" id="tareaModal" tabindex="-1" aria-labelledby="tareaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tareaModalLabel">Detalles de la Tarea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="tarea-details">
+                    <p><strong>ID:</strong> <span id="tarea-id"></span></p>
+                    <p><strong>Título:</strong> <span id="tarea-titulo"></span></p>
+                    <p><strong>Descripción:</strong> <span id="tarea-descripcion"></span></p>
+                    <p><strong>Fecha:</strong> <span id="tarea-fecha"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Funcion para visualizar infromacion actual de la tareas -->
+<script>
+    function showTareaDetails(id, titulo, descripcion, fecha) {
+        var modal = $('#tareaModal');
+        modal.find('#tarea-id').text(id);
+        modal.find('#tarea-titulo').text(titulo);
+        modal.find('#tarea-descripcion').text(descripcion);
+        modal.find('#tarea-fecha').text(fecha);
+    }
+</script>
 
 <!-- Funcion para eliminar tarea -->
 <script>
@@ -228,7 +266,7 @@
 <script>
     // Verifica si se debe mostrar la alerta de tarea existente
     var tareaExistenteAlert = document.getElementById("tareaExistenteAlert");
-    var tareaExistente = <%= request.getAttribute("tareaExistente") %>;
+    var tareaExistente = <%= request.getAttribute("tareaExistente")%>;
 
     if (tareaExistente) {
         tareaExistenteAlert.style.display = "block";
