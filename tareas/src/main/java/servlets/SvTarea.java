@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -81,35 +82,48 @@ public class SvTarea extends HttpServlet {
             session.setAttribute("listaTareas", listaTareas);
         }
 
-        // Verifica si ya existe una tarea con el mismo ID
         if (listaTareas.tareaConIdExiste(Integer.parseInt(id))) {
             // Tarea con el mismo ID ya existe, muestra una alerta
             request.setAttribute("tareaExistente", true);
+
+            // Redirige nuevamente a la página tareas.jsp
+            RequestDispatcher dispatcher = request.getRequestDispatcher("tareas.jsp");
+            dispatcher.forward(request, response);
         } else {
             Tareas nuevaTarea = new Tareas(Integer.parseInt(id), titulo, descripcion, fechaVencimiento);
 
-            if ("ultimo".equals(posicion)) {
-                // Agregar la tarea al final de la lista
-                listaTareas.agregarTareaAlFinal(nuevaTarea);
-            } else if ("antesDe".equals(posicion)) {
-                if (idAntesDe != null && !idAntesDe.isEmpty()) {
-                    // Agregar la tarea antes de la tarea con la ID especificada
-                    listaTareas.agregarTareaAntesDe(Integer.parseInt(idAntesDe), nuevaTarea);
-                } else {
-                    // Si no se proporciona una ID antes de la cual agregar, agregar al comienzo
-                    listaTareas.agregarTareaAlComienzo(nuevaTarea);
-                }
-            } else if ("despuesDe".equals(posicion)) {
-                if (idDespuesDe != null && !idDespuesDe.isEmpty()) {
-                    // Agregar la tarea después de la tarea con la ID especificada
-                    listaTareas.agregarTareaDespuesDe(Integer.parseInt(idDespuesDe), nuevaTarea);
-                } else {
-                    // Si no se proporciona una ID después de la cual agregar, agregar al final
-                    listaTareas.agregarTareaAlFinal(nuevaTarea);
-                }
-            } else {
+            if (null == posicion) {
                 // Por defecto o si se selecciona "primero", agregar al comienzo
                 listaTareas.agregarTareaAlComienzo(nuevaTarea);
+            } else {
+                switch (posicion) {
+                    case "ultimo":
+                        // Agregar la tarea al final de la lista
+                        listaTareas.agregarTareaAlFinal(nuevaTarea);
+                        break;
+                    case "antesDe":
+                        if (idAntesDe != null && !idAntesDe.isEmpty()) {
+                            // Agregar la tarea antes de la tarea con la ID especificada
+                            listaTareas.agregarTareaAntesDe(Integer.parseInt(idAntesDe), nuevaTarea);
+                        } else {
+                            // Si no se proporciona una ID antes de la cual agregar, agregar al comienzo
+                            listaTareas.agregarTareaAlComienzo(nuevaTarea);
+                        }
+                        break;
+                    case "despuesDe":
+                        if (idDespuesDe != null && !idDespuesDe.isEmpty()) {
+                            // Agregar la tarea después de la tarea con la ID especificada
+                            listaTareas.agregarTareaDespuesDe(Integer.parseInt(idDespuesDe), nuevaTarea);
+                        } else {
+                            // Si no se proporciona una ID después de la cual agregar, agregar al final
+                            listaTareas.agregarTareaAlFinal(nuevaTarea);
+                        }
+                        break;
+                    default:
+                        // Por defecto o si se selecciona "primero", agregar al comienzo
+                        listaTareas.agregarTareaAlComienzo(nuevaTarea);
+                        break;
+                }
             }
 
             // Guarda la tarea en el archivo
@@ -119,7 +133,7 @@ public class SvTarea extends HttpServlet {
             request.setAttribute("registroExitoso", true);
         }
 
-         // Redirige a la página tareas.jsp con el parámetro "registroExitoso"
+        // Redirige a la página tareas.jsp con el parámetro "registroExitoso"
         response.sendRedirect("tareas.jsp?registroExitoso=true");
     }
 
