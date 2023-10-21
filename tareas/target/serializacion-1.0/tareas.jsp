@@ -12,8 +12,11 @@
 <%@include file= "templates/header.jsp" %>
 <%@include file= "templates/navbar.jsp" %>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 <p> Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar sesion</a>  </p> 
+
+
 
 <div class="container p-4"> <!-- clase contenedora -->
     <div class="row">
@@ -21,7 +24,17 @@
             <div class="card card-body"> 
                 <!-- tarjeta de trabajo -->
                 <h3>Inserta tu tarea</h3>
-                <form action="SvTarea" method="POST">         
+                <form action="SvTarea" method="POST">       
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;" id="registroSuccessAlert">
+                        ¡Registro exitoso! La tarea se añadio a la lista.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;" id="tareaExistenteAlert">
+                        ¡Ya existe una tarea con el ID proporcionado!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    
                     <!-- Input para el id-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="id">Id:</label>
@@ -59,14 +72,14 @@
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="posicion" id="antesDeRadio" value="antesDe">
                             <label class="form-check-label" for="antesDeRadio">
-                                Antes de Tarea con ID:
+                                Despues de Tarea con ID:
                             </label>
                             <input type="text" name="idAntesDe" id="idAntesDe" placeholder="ID">
                         </div>
                         <div class="form-check">
                             <input class="form-check-input" type="radio" name="posicion" id="despuesDeRadio" value="despuesDe">
                             <label class="form-check-label" for="despuesDeRadio">
-                                Después de Tarea con ID:
+                                Antes de Tarea con ID:
                             </label>
                             <input type="text" name="idDespuesDe" id="idDespuesDe" placeholder="ID">
                         </div>
@@ -104,11 +117,7 @@
                             <td><%= current.tarea.getDescripcion()%></td>
                             <td><%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%></td>
                             <td>
-                                <button onclick=' if (confirm("¿Desea eliminar la tarea?")) {
-                                            location.href = "SvCanino?tipo=delete&nombre="
-                                        }' class="btn btn primary" 
-                                ><i class="fa-solid fa-trash"></i></button>  
-                            </td>
+                            <a onclick="eliminarTarea(<%= current.tarea.getId()%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i> </a></td>
                         </tr>
                     <%
                                 current = current.siguiente;
@@ -126,32 +135,42 @@
 <%@include file= "templates/footer.jsp" %>
 
 
+<!-- Funcion para eliminar tarea -->
+<script>
+    function eliminarTarea(id) {
+        if (confirm("¿Desea eliminar la tarea?")) {
+            location.href = "SvTarea?tipo=delete&id=" + id;
+        }
+    }
+</script>
+
+
 <!-- Funcion que oculta los radio button mientras la lista este vacia -->
 <%
     ListasE lista = (ListasE) session.getAttribute("listaTareas");
     boolean listaVacia = (lista == null) || lista.verificarContenido();
 %>
 <script>
-    var listaVacia = <%= listaVacia %>;
+    var listaVacia = <%= listaVacia%>;
     var radios = document.querySelectorAll(".form-check-input");
     var labels = document.querySelectorAll(".form-check-label");
     var idAntesDeInput = document.getElementById("idAntesDe");
     var idDespuesDeInput = document.getElementById("idDespuesDe");
 
     if (listaVacia) {
-        radios.forEach(function(radio) {
+        radios.forEach(function (radio) {
             radio.style.display = "none";
         });
-        labels.forEach(function(label) {
+        labels.forEach(function (label) {
             label.style.display = "none";
         });
         idAntesDeInput.style.display = "none";
         idDespuesDeInput.style.display = "none";
     } else {
-        radios.forEach(function(radio) {
+        radios.forEach(function (radio) {
             radio.style.display = "block";
         });
-        labels.forEach(function(label) {
+        labels.forEach(function (label) {
             label.style.display = "block";
         });
         idAntesDeInput.style.display = "block";
@@ -160,6 +179,7 @@
 </script>
 
 
+<!-- Funcion para los casos de adicion a la lista -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         var form = document.querySelector("form"); // Selecciona el formulario
@@ -189,3 +209,28 @@
     });
 </script>
 
+
+<script>
+    // Obtén el valor del parámetro "registroExitoso" de la URL
+    var urlParams = new URLSearchParams(window.location.search);
+    var registroExitoso = urlParams.get("registroExitoso");
+
+    if (registroExitoso === "true") {
+        // Muestra el mensaje de alerta
+        var registroSuccessAlert = document.getElementById("registroSuccessAlert");
+        if (registroSuccessAlert) {
+            registroSuccessAlert.style.display = "block";
+        }
+    }
+</script>
+
+
+<script>
+    // Verifica si se debe mostrar la alerta de tarea existente
+    var tareaExistenteAlert = document.getElementById("tareaExistenteAlert");
+    var tareaExistente = <%= request.getAttribute("tareaExistente") %>;
+
+    if (tareaExistente) {
+        tareaExistenteAlert.style.display = "block";
+    }
+</script>

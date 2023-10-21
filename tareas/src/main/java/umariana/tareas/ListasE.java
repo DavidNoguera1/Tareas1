@@ -12,11 +12,13 @@ import java.util.Date;
 import javax.servlet.ServletContext;
 
 public class ListasE {
+
     public Nodo inicio = null;
     public Nodo fin = null;
 
     // Clase interna Nodo que representa un elemento de la lista
     public class Nodo {
+
         public Tareas tarea;
         public Nodo siguiente;
 
@@ -61,9 +63,11 @@ public class ListasE {
     }
 
     /**
-     * Adiciona una tarea a la lista de tareas antes de la tarea con el id especificado.
+     * Adiciona una tarea a la lista de tareas antes de la tarea con el id
+     * especificado.
      *
-     * @param id El id de la tarea antes de la cual se va a insertar la nueva tarea.
+     * @param id El id de la tarea antes de la cual se va a insertar la nueva
+     * tarea.
      * @param tarea La tarea que se va a agregar.
      */
     public void agregarTareaAntesDe(int id, Tareas tarea) {
@@ -88,11 +92,12 @@ public class ListasE {
         }
     }
 
-    
     /**
-     * Adiciona una tarea a la lista de tareas después de la tarea con el id especificado.
+     * Adiciona una tarea a la lista de tareas después de la tarea con el id
+     * especificado.
      *
-     * @param id El id de la tarea después de la cual se va a insertar la nueva tarea.
+     * @param id El id de la tarea después de la cual se va a insertar la nueva
+     * tarea.
      * @param tarea La tarea que se va a agregar.
      */
     public void agregarTareaDespuesDe(int id, Tareas tarea) {
@@ -113,7 +118,8 @@ public class ListasE {
      * Busca la tarea con el id dado en la lista de tareas.
      *
      * @param id El id de la tarea que se va a buscar.
-     * @return La tarea con el id especificado. Si la tarea no existe, se retorna null.
+     * @return La tarea con el id especificado. Si la tarea no existe, se
+     * retorna null.
      */
     public Nodo localizarPorId(int id) {
         Nodo actual = inicio;
@@ -126,8 +132,10 @@ public class ListasE {
     /**
      * Busca la tarea anterior a la tarea con el id especificado.
      *
-     * @param id El id de la tarea de la cual se desea encontrar la tarea anterior.
-     * @return La tarea anterior a la tarea con el id dado. Se retorna null si la tarea con el id dado no existe o si es la primera de la lista.
+     * @param id El id de la tarea de la cual se desea encontrar la tarea
+     * anterior.
+     * @return La tarea anterior a la tarea con el id dado. Se retorna null si
+     * la tarea con el id dado no existe o si es la primera de la lista.
      */
     public Nodo localizarAnteriorPorId(int id) {
         Nodo anterior = null;
@@ -140,7 +148,42 @@ public class ListasE {
 
         return (actual != null) ? anterior : null;
     }
+    
+    //Elimina una tarea
+    public void eliminarTarea(int id) {
+        if (inicio == null) {
+            System.out.println("La lista de tareas está vacía, no se pudo eliminar la tarea con id: " + id);
+            return;
+        }
 
+        if (id == inicio.tarea.getId()) {
+            // La tarea es la primera de la lista
+            inicio = inicio.siguiente;
+        } else {
+            // La tarea es un elemento intermedio de la lista
+            Nodo anterior = localizarAnteriorPorId(id);
+            if (anterior == null) {
+                System.out.println("No se encontró una tarea con id: " + id + " para eliminar.");
+                return;
+            }
+            anterior.siguiente = anterior.siguiente.siguiente; // Desconectar la tarea
+        }
+
+    }
+    
+    // Este metodo verifica la existencia de una tarea con una ID
+    public boolean tareaConIdExiste(int id) {
+    Nodo actual = inicio;
+
+    while (actual != null) {
+        if (actual.tarea.getId() == id) {
+            return true; // La tarea con el ID proporcionado ya existe
+        }
+        actual = actual.siguiente;
+    }
+
+    return false; // No se encontró una tarea con el ID proporcionado
+}
 
     // Método para guardar la lista en un archivo de texto
     public static void guardarLista(ListasE listaActualizada, ServletContext context) {
