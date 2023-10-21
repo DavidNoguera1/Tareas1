@@ -148,7 +148,7 @@ public class ListasE {
 
         return (actual != null) ? anterior : null;
     }
-    
+
     //Elimina una tarea
     public void eliminarTarea(int id) {
         if (inicio == null) {
@@ -170,20 +170,40 @@ public class ListasE {
         }
 
     }
-    
+
     // Este metodo verifica la existencia de una tarea con una ID
     public boolean tareaConIdExiste(int id) {
-    Nodo actual = inicio;
+        Nodo actual = inicio;
 
-    while (actual != null) {
-        if (actual.tarea.getId() == id) {
-            return true; // La tarea con el ID proporcionado ya existe
+        while (actual != null) {
+            if (actual.tarea.getId() == id) {
+                return true; // La tarea con el ID proporcionado ya existe
+            }
+            actual = actual.siguiente;
         }
-        actual = actual.siguiente;
+
+        return false; // No se encontró una tarea con el ID proporcionado
+
     }
 
-    return false; // No se encontró una tarea con el ID proporcionado
-}
+    public void editarTarea(int id, String nuevoTitulo, String nuevaDescripcion, String nuevaFechaStr) {
+        Nodo tareaExistente = localizarPorId(id);
+
+        if (tareaExistente != null) {
+            // Actualiza los atributos de la tarea
+            tareaExistente.tarea.setTitulo(nuevoTitulo);
+            tareaExistente.tarea.setDescripcion(nuevaDescripcion);
+
+            // Convierte la cadena de fecha en un objeto Date
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date nuevaFecha = dateFormat.parse(nuevaFechaStr);
+                tareaExistente.tarea.setFechaV(nuevaFecha);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     // Método para guardar la lista en un archivo de texto
     public static void guardarLista(ListasE listaActualizada, ServletContext context) {

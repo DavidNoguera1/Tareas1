@@ -120,6 +120,15 @@
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tareaModal"
                                onclick="showTareaDetails(<%= current.tarea.getId()%>, '<%= current.tarea.getTitulo()%>', '<%= current.tarea.getDescripcion()%>', '<%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%>')">
                                 <i class="fas fa-eye"></i> </a>
+                                
+                             <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal"
+                                data-id="<%= current.tarea.getId()%>"
+                                data-titulo="<%= current.tarea.getTitulo()%>"
+                                data-descripcion="<%= current.tarea.getDescripcion()%>"
+                                data-fecha="<%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%>">
+                                 <i class="fas fa-pencil-alt"></i>
+                             </a>
+                             
                             <a onclick="eliminarTarea(<%= current.tarea.getId()%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
@@ -171,6 +180,61 @@
         modal.find('#tarea-descripcion').text(descripcion);
         modal.find('#tarea-fecha').text(fecha);
     }
+</script>
+
+<!-- Ventana Modal para Editar Tarea -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarModalLabel">Editar Tarea</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="SvEditado" method="POST">
+                    <!-- Campo oculto para almacenar el ID de la tarea -->
+                    <input type="hidden" name="id" id="editar-tarea-id" value="">
+                    <!-- Input para editar el título -->
+                    <div class="mb-3">
+                        <label for="titulo" class="form-label">Título</label>
+                        <input type="text" class="form-control" id="editar-tarea-titulo" name="titulo">
+                    </div>
+                    <!-- Input para editar la descripción -->
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="editar-tarea-descripcion" name="descripcion"></textarea>
+                    </div>
+                    <!-- Input para editar la fecha -->
+                    <div class="mb-3">
+                        <label for="fecha" class="form-label">Fecha</label>
+                        <input type="date" class="form-control" id="editar-tarea-fecha" name="fecha">
+                    </div>
+                    <!-- Botón para guardar cambios -->
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para prellenar los campos de edición -->
+<script>
+    $('#editarModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botón que desencadenó el evento
+        var id = button.data('id'); // Obtén el ID de la tarea
+        var titulo = button.data('titulo'); // Obtén el título de la tarea
+        var descripcion = button.data('descripcion'); // Obtén la descripción de la tarea
+        var fecha = button.data('fecha'); // Obtén la fecha de la tarea
+
+        // Rellena los campos del formulario de edición con los datos de la tarea
+        $('#editar-tarea-id').val(id);
+        $('#editar-tarea-titulo').val(titulo);
+        $('#editar-tarea-descripcion').val(descripcion);
+        $('#editar-tarea-fecha').val(fecha);
+    });
 </script>
 
 <!-- Funcion para eliminar tarea -->
