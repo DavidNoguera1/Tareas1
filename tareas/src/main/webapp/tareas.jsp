@@ -24,73 +24,71 @@
             <div class="card card-body"> 
                 <!-- tarjeta de trabajo -->
                 <h3>Inserta tu tarea</h3>
-                <form action="SvTarea" method="POST">       
+                <form action="SvTarea" method="POST" onsubmit="return verificarIdUnica()">
+
                     <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;" id="registroSuccessAlert">
-                        ¡Registro exitoso! La tarea se añadio a la lista.
+                        ¡Registro exitoso! La tarea se añadió a la lista.
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
 
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;" id="tareaExistenteAlert">
+                    <% if (request.getAttribute("tareaExistente") != null) { %>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         ¡Ya existe una tarea con el ID proporcionado!
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
+                    <% } %>
 
-                    <!-- Input para el id-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="id">Id:</label>
-                        <input type="text" name ="id" class="form-control">
-                    </div>                                            
-                    <!-- Input para el titulo-->
+                        <input type="text" name="id" class="form-control" required pattern="\d+" />
+                    </div>
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="titulo">Titulo:</label>
-                        <input type="text" name="titulo" class="form-control">
+                        <input type="text" name="titulo" class="form-control" required />
                     </div>
-                    <!-- Input para la descripcion-->
                     <div class="input-group mb-3">
-                        <label class="input-group-text" for="descripcion">Descripcion:</label>
-                        <Textarea type="text" name="descripcion" class="form-control"  ></textarea>
+                        <label class="input-group-text" for="descripcion">Descripción:</label>
+                        <textarea name="descripcion" class="form-control" required></textarea>
                     </div>
-                      <!-- Input para la fecha-->                   
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="fecha">Fecha:</label>
-                        <input type="date" name="fecha" class="form-control">
+                        <input type="date" name="fecha" class="form-control" required />
                     </div>
-                      
-                    <!-- Radio buttons -->
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="posicion" id="primeroRadio" value="primero">
-                            <label class="form-check-label" for="primeroRadio">
-                                Primero en la lista
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="posicion" id="ultimoRadio" value="ultimo">
-                            <label class="form-check-label" for="ultimoRadio">
-                                Ultimo en la lista
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="posicion" id="antesDeRadio" value="antesDe">
-                            <label class="form-check-label" for="antesDeRadio">
-                                Despues de Tarea con ID:
-                            </label>
-                            <input type="text" name="idAntesDe" id="idAntesDe" placeholder="ID">
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="posicion" id="despuesDeRadio" value="despuesDe">
-                            <label class="form-check-label" for="despuesDeRadio">
-                                Antes de Tarea con ID:
-                            </label>
-                            <input type="text" name="idDespuesDe" id="idDespuesDe" placeholder="ID">
-                        </div>
 
+                    <!-- Radio buttons (mantenidos intactos) -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="posicion" id="primeroRadio" value="primero">
+                        <label class="form-check-label" for="primeroRadio">
+                            Primero en la lista
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="posicion" id="ultimoRadio" value="ultimo">
+                        <label class="form-check-label" for="ultimoRadio">
+                            Ultimo en la lista
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="posicion" id="antesDeRadio" value="antesDe">
+                        <label class="form-check-label" for="antesDeRadio">
+                            Despues de Tarea con ID:
+                        </label>
+                        <input type="text" name="idAntesDe" id="idAntesDe" placeholder="ID">
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="posicion" id="despuesDeRadio" value="despuesDe">
+                        <label class="form-check-label" for="despuesDeRadio">
+                            Antes de Tarea con ID:
+                        </label>
+                        <input type="text" name="idDespuesDe" id="idDespuesDe" placeholder="ID">
+                    </div>
 
-                      <!-- Boton para agregar tarea --> 
-                      <input type="submit" value="Agregar Tarea" class ="form-control"</>
-                </form><br>
+                    <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+                </form>
+                <br>
             </div>    
         </div> 
-        
+
         <!-- Tabla de datos -->
         <div class="col-md-8">
             <table class="table table-bordered table-dark">
@@ -120,15 +118,15 @@
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tareaModal"
                                onclick="showTareaDetails(<%= current.tarea.getId()%>, '<%= current.tarea.getTitulo()%>', '<%= current.tarea.getDescripcion()%>', '<%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%>')">
                                 <i class="fas fa-eye"></i> </a>
-                                
-                             <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal"
-                                data-id="<%= current.tarea.getId()%>"
-                                data-titulo="<%= current.tarea.getTitulo()%>"
-                                data-descripcion="<%= current.tarea.getDescripcion()%>"
-                                data-fecha="<%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%>">
-                                 <i class="fas fa-pencil-alt"></i>
-                             </a>
-                             
+
+                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editarModal"
+                               data-id="<%= current.tarea.getId()%>"
+                               data-titulo="<%= current.tarea.getTitulo()%>"
+                               data-descripcion="<%= current.tarea.getDescripcion()%>"
+                               data-fecha="<%= new SimpleDateFormat("yyyy-MM-dd").format(current.tarea.getFechaV())%>">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+
                             <a onclick="eliminarTarea(<%= current.tarea.getId()%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                         </td>
                     </tr>
@@ -311,7 +309,7 @@
     });
 </script>
 
-
+<!-- Funcion para alerta exito-->
 <script>
     // Obtén el valor del parámetro "registroExitoso" de la URL
     var urlParams = new URLSearchParams(window.location.search);
@@ -326,13 +324,22 @@
     }
 </script>
 
-
+<!-- Funcion para alerta repetida-->
 <script>
-    // Verifica si se debe mostrar la alerta de tarea existente
-    var tareaExistenteAlert = document.getElementById("tareaExistenteAlert");
-    var tareaExistente = <%= request.getAttribute("tareaExistente")%>;
+    function verificarIdUnica() {
+        // Obtenemos el valor del campo ID
+        var idInput = document.querySelector('input[name="id"]');
+        var id = parseInt(idInput.value);
 
-    if (tareaExistente) {
-        tareaExistenteAlert.style.display = "block";
+        // Verificar si la tarea con ID ya existe
+        if (listaTareas && listaTareas.tareaConIdExiste(id)) {
+            // Mostrar la alerta
+            var idRepetidaAlert = document.getElementById("idRepetidaAlert");
+            if (idRepetidaAlert) {
+                idRepetidaAlert.style.display = "block";
+            }
+            return false; // Evita que se envíe el formulario
+        }
+        return true; // Permite enviar el formulario si la ID es única
     }
 </script>

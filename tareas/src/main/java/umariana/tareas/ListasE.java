@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletContext;
 
+// Clase que manejara la lista enlazada y sus metodos
+
 public class ListasE {
 
     public Nodo inicio = null;

@@ -53,8 +53,7 @@ public class SvTarea extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
@@ -82,6 +81,7 @@ public class SvTarea extends HttpServlet {
             session.setAttribute("listaTareas", listaTareas);
         }
 
+        // Verifica si ya existe una tarea con el mismo ID
         if (listaTareas.tareaConIdExiste(Integer.parseInt(id))) {
             // Tarea con el mismo ID ya existe, muestra una alerta
             request.setAttribute("tareaExistente", true);
@@ -131,10 +131,9 @@ public class SvTarea extends HttpServlet {
 
             // Después de agregar una tarea exitosamente en tu servlet
             request.setAttribute("registroExitoso", true);
+
+            // Redirige a la página tareas.jsp con el parámetro "registroExitoso"
+            response.sendRedirect("tareas.jsp?registroExitoso=true");
         }
-
-        // Redirige a la página tareas.jsp con el parámetro "registroExitoso"
-        response.sendRedirect("tareas.jsp?registroExitoso=true");
     }
-
 }
