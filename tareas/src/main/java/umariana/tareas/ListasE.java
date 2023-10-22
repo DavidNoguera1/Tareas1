@@ -29,7 +29,9 @@ public class ListasE {
             this.siguiente = null;
         }
     }
-
+    
+    
+    // Boolean que verifica si la lista esta vacia
     public boolean verificarContenido() {
         return inicio == null;
     }
@@ -151,7 +153,7 @@ public class ListasE {
         return (actual != null) ? anterior : null;
     }
 
-    //Elimina una tarea
+    //Metodo que elimina una tarea
     public void eliminarTarea(int id) {
         if (inicio == null) {
             System.out.println("La lista de tareas está vacía, no se pudo eliminar la tarea con id: " + id);
@@ -187,7 +189,9 @@ public class ListasE {
         return false; // No se encontró una tarea con el ID proporcionado
 
     }
-
+    
+    
+    //Metodo que permite editar los datos de la Tarea con excepcion de la ID
     public void editarTarea(int id, String nuevoTitulo, String nuevaDescripcion, String nuevaFechaStr) {
         Nodo tareaExistente = localizarPorId(id);
 

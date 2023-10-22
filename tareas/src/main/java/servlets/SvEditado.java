@@ -16,6 +16,7 @@ import umariana.tareas.ListasE;
 /**
  *
  * @author David Noguera
+ * Servlet destinado a la edicion de tareas para evitar enredos
  */
 @WebServlet(name = "SvEditado", urlPatterns = {"/SvEditado"})
 public class SvEditado extends HttpServlet {
@@ -25,6 +26,8 @@ public class SvEditado extends HttpServlet {
      * HttpServletResponse response) throws ServletException, IOException {
      * processRequest(request, response); }
      */
+    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Obtén los parámetros enviados desde el formulario de edición
@@ -44,15 +47,18 @@ public class SvEditado extends HttpServlet {
 
                 // Guarda la lista actualizada en el archivo de texto
                 ListasE.guardarLista(listaTareas, getServletContext());
+
+                // Establece el atributo de edición exitosa en la solicitud
+                request.setAttribute("edicionExitosa", true);
             } else {
-                // Maneja el caso en el que la tarea no existe
-                // Puedes mostrar un mensaje de error o redirigir a una página de error
+                
             }
         }
 
         // Redirige a la página de tareas (o la página que desees)
         response.sendRedirect("tareas.jsp");
     }
+
 
     @Override
     public String getServletInfo() {

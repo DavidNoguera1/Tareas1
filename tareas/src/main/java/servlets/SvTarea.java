@@ -41,6 +41,9 @@ public class SvTarea extends HttpServlet {
                         listaTareas.eliminarTarea(id);
                         // Guarda la lista actualizada en el archivo
                         ListasE.guardarLista(listaTareas, getServletContext());
+
+                        // Agrega un atributo para indicar la eliminación exitosa
+                        session.setAttribute("tareaEliminada", true);
                     } catch (NumberFormatException e) {
                         // Maneja la excepción si no se proporciona un ID válido
                         e.printStackTrace();
@@ -48,7 +51,7 @@ public class SvTarea extends HttpServlet {
                 }
             }
         }
-        // Redirige de regreso a la página de tareas después de borrar
+        // Después de eliminar una tarea con éxito en tu servlet
         response.sendRedirect("tareas.jsp");
     }
 
