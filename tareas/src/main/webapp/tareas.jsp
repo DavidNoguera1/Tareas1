@@ -61,16 +61,14 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="posicion" id="antesDeRadio" value="antesDe">
                         <label class="form-check-label" for="antesDeRadio">
-                            Despues de Tarea con ID:
+                            Después de Tarea con ID:
                         </label>
-                        <input type="text" name="idAntesDe" id="idAntesDe" placeholder="ID">
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="posicion" id="despuesDeRadio" value="despuesDe">
                         <label class="form-check-label" for="despuesDeRadio">
                             Antes de Tarea con ID:
                         </label>
-                        <input type="text" name="idDespuesDe" id="idDespuesDe" placeholder="ID">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Agregar Tarea</button>
@@ -92,8 +90,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%
-                        ListasE listaTareas = (ListasE) session.getAttribute("listaTareas");
+                    <%                        ListasE listaTareas = (ListasE) session.getAttribute("listaTareas");
 
                         if (listaTareas != null) {
                             ListasE.Nodo current = listaTareas.inicio;
@@ -135,6 +132,73 @@
 </div>
 
 <%@include file= "templates/footer.jsp" %>
+
+
+<!-- Cuadro de diálogo para ingresar la ID -->
+<div class="modal fade" id="idModal" tabindex="-1" aria-labelledby="idModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="idModalLabel">Ingrese la ID</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="idIngresada" id="idIngresada" class="form-control" placeholder="ID">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="confirmarBtn">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Obtén los elementos relevantes del documento HTML
+    var antesDeRadio = document.getElementById("antesDeRadio");
+    var despuesDeRadio = document.getElementById("despuesDeRadio");
+    var idModal = new bootstrap.Modal(document.getElementById("idModal"), {
+        keyboard: false,
+        backdrop: "static"
+    });
+    var idIngresada = document.getElementById("idIngresada");
+    var confirmarBtn = document.getElementById("confirmarBtn");
+
+// Agrega un evento de cambio al radio button "Después de Tarea con ID"
+    antesDeRadio.addEventListener("change", function () {
+        if (this.checked) {
+            // Cuando se selecciona esta opción, se muestra el cuadro de diálogo modal
+            // y se limpia el campo de entrada de ID (idIngresada)
+            idIngresada.value = "";
+            idModal.show();
+
+            // Configura un evento de clic para el botón "Confirmar" en el cuadro de diálogo
+            confirmarBtn.onclick = function () {
+                // Cuando se hace clic en "Confirmar", la ID ingresada se asigna al campo "idAntesDe"
+                document.getElementById("idAntesDe").value = idIngresada.value;
+                idModal.hide(); // Se oculta el cuadro de diálogo
+            };
+        }
+    });
+
+// Agrega un evento de cambio al radio button "Antes de Tarea con ID"
+    despuesDeRadio.addEventListener("change", function () {
+        if (this.checked) {
+            // Cuando se selecciona esta opción, se muestra el cuadro de diálogo modal
+            // y se limpia el campo de entrada de ID (idIngresada)
+            idIngresada.value = "";
+            idModal.show();
+
+            // Configura un evento de clic para el botón "Confirmar" en el cuadro de diálogo
+            confirmarBtn.onclick = function () {
+                // Cuando se hace clic en "Confirmar", la ID ingresada se asigna al campo "idDespuesDe"
+                document.getElementById("idDespuesDe").value = idIngresada.value;
+                idModal.hide(); // Se oculta el cuadro de diálogo
+            };
+        }
+    });
+</script>
+
 
 
 <!-- Ventana Modal Informacion Tareas -->
@@ -229,11 +293,11 @@
 <!-- Funcion para confirmar eliminar tarea -->
 <script>
     function eliminarTarea(id) {
-    if (confirm("¿Desea eliminar la tarea?")) {
-        // Si se confirma la eliminación, redirige al servlet para eliminar la tarea
-        location.href = "SvTarea?tipo=delete&id=" + id;
+        if (confirm("¿Desea eliminar la tarea?")) {
+            // Si se confirma la eliminación, redirige al servlet para eliminar la tarea
+            location.href = "SvTarea?tipo=delete&id=" + id;
+        }
     }
-}
 </script>
 
 
