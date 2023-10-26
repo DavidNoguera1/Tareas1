@@ -13,12 +13,16 @@
 <%@include file= "templates/navbar.jsp" %>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-<p> Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar sesion</a>  </p> 
-
-
-
+<style>
+        body {
+            background-image: linear-gradient(#c6cca5, #8ab8a8, #54787d);
+            background-size: cover; /* Asegura que la imagen de fondo cubra toda la página */
+            background-attachment: fixed; /* Mantiene el fondo fijo mientras se desplaza la página */
+        }
+    </style>
+    
 <div class="container p-4"> <!-- clase contenedora -->
+    <p class="text-end">Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar sesión</a></p>
     <div class="row">
         <div class="col-md-4">  <!-- clase division por 4 columnas -->
             <div class="card card-body"> 
@@ -61,14 +65,16 @@
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="posicion" id="antesDeRadio" value="antesDe">
                         <label class="form-check-label" for="antesDeRadio">
-                            Después de Tarea con ID:
+                            Despues de Tarea con ID:
                         </label>
+                        <input type="text" name="idAntesDe" id="idAntesDe" placeholder="ID">
                     </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="posicion" id="despuesDeRadio" value="despuesDe">
                         <label class="form-check-label" for="despuesDeRadio">
                             Antes de Tarea con ID:
                         </label>
+                        <input type="text" name="idDespuesDe" id="idDespuesDe" placeholder="ID">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Agregar Tarea</button>
@@ -132,74 +138,6 @@
 </div>
 
 <%@include file= "templates/footer.jsp" %>
-
-
-<!-- Cuadro de diálogo para ingresar la ID -->
-<div class="modal fade" id="idModal" tabindex="-1" aria-labelledby="idModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="idModalLabel">Ingrese la ID</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" name="idIngresada" id="idIngresada" class="form-control" placeholder="ID">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="confirmarBtn">Confirmar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Obtén los elementos relevantes del documento HTML
-    var antesDeRadio = document.getElementById("antesDeRadio");
-    var despuesDeRadio = document.getElementById("despuesDeRadio");
-    var idModal = new bootstrap.Modal(document.getElementById("idModal"), {
-        keyboard: false,
-        backdrop: "static"
-    });
-    var idIngresada = document.getElementById("idIngresada");
-    var confirmarBtn = document.getElementById("confirmarBtn");
-
-// Agrega un evento de cambio al radio button "Después de Tarea con ID"
-    antesDeRadio.addEventListener("change", function () {
-        if (this.checked) {
-            // Cuando se selecciona esta opción, se muestra el cuadro de diálogo modal
-            // y se limpia el campo de entrada de ID (idIngresada)
-            idIngresada.value = "";
-            idModal.show();
-
-            // Configura un evento de clic para el botón "Confirmar" en el cuadro de diálogo
-            confirmarBtn.onclick = function () {
-                // Cuando se hace clic en "Confirmar", la ID ingresada se asigna al campo "idAntesDe"
-                document.getElementById("idAntesDe").value = idIngresada.value;
-                idModal.hide(); // Se oculta el cuadro de diálogo
-            };
-        }
-    });
-
-// Agrega un evento de cambio al radio button "Antes de Tarea con ID"
-    despuesDeRadio.addEventListener("change", function () {
-        if (this.checked) {
-            // Cuando se selecciona esta opción, se muestra el cuadro de diálogo modal
-            // y se limpia el campo de entrada de ID (idIngresada)
-            idIngresada.value = "";
-            idModal.show();
-
-            // Configura un evento de clic para el botón "Confirmar" en el cuadro de diálogo
-            confirmarBtn.onclick = function () {
-                // Cuando se hace clic en "Confirmar", la ID ingresada se asigna al campo "idDespuesDe"
-                document.getElementById("idDespuesDe").value = idIngresada.value;
-                idModal.hide(); // Se oculta el cuadro de diálogo
-            };
-        }
-    });
-</script>
-
-
 
 <!-- Ventana Modal Informacion Tareas -->
 <div class="modal fade" id="tareaModal" tabindex="-1" aria-labelledby="tareaModalLabel" aria-hidden="true">
@@ -332,6 +270,37 @@
         idAntesDeInput.style.display = "block";
         idDespuesDeInput.style.display = "block";
     }
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.querySelector("form"); // Selecciona el formulario
+        var idAntesDeInput = document.getElementById("idAntesDe");
+        var idDespuesDeInput = document.getElementById("idDespuesDe");
+
+        // Función para mostrar u ocultar los campos de entrada según la selección del radio button
+        function toggleInputFields() {
+            if (antesDeRadio.checked) {
+                idAntesDeInput.style.display = "block";
+                idDespuesDeInput.style.display = "none";
+            } else if (despuesDeRadio.checked) {
+                idAntesDeInput.style.display = "none";
+                idDespuesDeInput.style.display = "block";
+            } else {
+                idAntesDeInput.style.display = "none";
+                idDespuesDeInput.style.display = "none";
+            }
+        }
+
+        // Agregar eventos de cambio a los radio buttons
+        var antesDeRadio = document.getElementById("antesDeRadio");
+        var despuesDeRadio = document.getElementById("despuesDeRadio");
+        antesDeRadio.addEventListener("change", toggleInputFields);
+        despuesDeRadio.addEventListener("change", toggleInputFields);
+
+        // Ejecutar la función al cargar la página para establecer el estado inicial
+        toggleInputFields();
+    });
 </script>
 
 
