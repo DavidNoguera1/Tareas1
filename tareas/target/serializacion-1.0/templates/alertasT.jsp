@@ -17,7 +17,7 @@
     ¡Ya existe una tarea con el ID proporcionado!
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-<% }%>
+<% } %>
 
 
 <div class="alert alert-success alert-dismissible fade" role="alert" id="tareaEliminadaAlert" style="display: none;">

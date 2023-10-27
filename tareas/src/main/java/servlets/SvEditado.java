@@ -40,7 +40,7 @@ public class SvEditado extends HttpServlet {
         String nuevaFechaStr = request.getParameter("fecha");
 
         // Obtén la lista de tareas desde la sesión
-        ListasE listaTareas = (ListasE) session.getAttribute("listaTareas");
+        ListasE listaTareas = ListasE.leerLista(getServletContext());
 
         if (listaTareas != null) {
             // Realiza validaciones, por ejemplo, verifica si la tarea con el ID proporcionado existe

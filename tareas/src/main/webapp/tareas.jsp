@@ -14,13 +14,13 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <style>
-        body {
-            background-image: linear-gradient(#c6cca5, #8ab8a8, #54787d);
-            background-size: cover; /* Asegura que la imagen de fondo cubra toda la página */
-            background-attachment: fixed; /* Mantiene el fondo fijo mientras se desplaza la página */
-        }
-    </style>
-    
+    body {
+        background-image: linear-gradient(#c6cca5, #8ab8a8, #54787d);
+        background-size: cover; /* Asegura que la imagen de fondo cubra toda la página */
+        background-attachment: fixed; /* Mantiene el fondo fijo mientras se desplaza la página */
+    }
+</style>
+
 <div class="container p-4"> <!-- clase contenedora -->
     <p class="text-end">Bienvenido <%= session.getAttribute("usuario")%> / <a href="index.jsp">Cerrar sesión</a></p>
     <div class="row">
@@ -96,7 +96,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%                        ListasE listaTareas = (ListasE) session.getAttribute("listaTareas");
+                    <%  // Obtener la lista enlazada desde el contexto del servlet
+                        ServletContext context = request.getServletContext();
+                        ListasE listaTareas = ListasE.leerLista(context);
 
                         if (listaTareas != null) {
                             ListasE.Nodo current = listaTareas.inicio;
@@ -239,37 +241,35 @@
 </script>
 
 
-<!-- Funcion que oculta los radio button mientras la lista este vacia -->
-<%
-    ListasE lista = (ListasE) session.getAttribute("listaTareas");
-    boolean listaVacia = (lista == null) || lista.verificarContenido();
-%>
+<!-- Funcion para ocultar los radio buttons -->
 <script>
-    var listaVacia = <%= listaVacia%>;
-    var radios = document.querySelectorAll(".form-check-input");
-    var labels = document.querySelectorAll(".form-check-label");
-    var idAntesDeInput = document.getElementById("idAntesDe");
-    var idDespuesDeInput = document.getElementById("idDespuesDe");
+   document.addEventListener("DOMContentLoaded", function() {
+        var listaVacia = <%= request.getAttribute("listaVacia")%>;
+        var radios = document.querySelectorAll(".form-check-input");
+        var labels = document.querySelectorAll(".form-check-label");
+        var idAntesDeInput = document.getElementById("idAntesDe");
+        var idDespuesDeInput = document.getElementById("idDespuesDe");
 
-    if (listaVacia) {
-        radios.forEach(function (radio) {
-            radio.style.display = "none";
-        });
-        labels.forEach(function (label) {
-            label.style.display = "none";
-        });
-        idAntesDeInput.style.display = "none";
-        idDespuesDeInput.style.display = "none";
-    } else {
-        radios.forEach(function (radio) {
-            radio.style.display = "block";
-        });
-        labels.forEach(function (label) {
-            label.style.display = "block";
-        });
-        idAntesDeInput.style.display = "block";
-        idDespuesDeInput.style.display = "block";
-    }
+        if (listaVacia) {
+            radios.forEach(function (radio) {
+                radio.style.display = "none";
+            });
+            labels.forEach(function (label) {
+                label.style.display = "none";
+            });
+            idAntesDeInput.style.display = "none";
+            idDespuesDeInput.style.display = "none";
+        } else {
+            radios.forEach(function (radio) {
+                radio.style.display = "block";
+            });
+            labels.forEach(function (label) {
+                label.style.display = "block";
+            });
+            idAntesDeInput.style.display = "block";
+            idDespuesDeInput.style.display = "block";
+        }
+    });
 </script>
 
 <script>

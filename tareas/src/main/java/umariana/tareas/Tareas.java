@@ -4,6 +4,7 @@
  */
 package umariana.tareas;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
  * @author David Noguera Definimos los atributos que se le asignaran a cada
  * tarea
  */
-public class Tareas {
+public class Tareas implements Serializable {
 
     private int id;
     private String titulo;
