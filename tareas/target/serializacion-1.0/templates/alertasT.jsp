@@ -12,12 +12,15 @@
 </div>
 
 <!-- Alerta ID existente -->
-<% if (request.getAttribute("tareaExistente") != null) { %>
+<% if (session.getAttribute("tareaExistente") != null) { %>
 <div class="alert alert-danger alert-dismissible fade show" role="alert">
     ¡Ya existe una tarea con el ID proporcionado!
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
-<% } %>
+<% 
+    session.removeAttribute("tareaExistente");
+    
+    } %>
 
 
 <div class="alert alert-success alert-dismissible fade" role="alert" id="tareaEliminadaAlert" style="display: none;">

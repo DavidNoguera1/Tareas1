@@ -78,7 +78,7 @@ public class SvTarea extends HttpServlet {
         // Verifica si ya existe una tarea con el mismo ID
         if (listaTareas.tareaConIdExiste(Integer.parseInt(id))) {
             // Tarea con el mismo ID ya existe, muestra una alerta
-            request.setAttribute("tareaExistente", true);
+            session.setAttribute("tareaExistente", true);
             // Después de configurar "tareaExistente", redirige a la página tareas.jsp
             RequestDispatcher dispatcher = request.getRequestDispatcher("tareas.jsp");
             
